@@ -2,3 +2,6 @@
 oc new-project $1
 oc project $1
 oc adm policy add-scc-to-user privileged -z default  
+oc create -f student-cli/
+oc create -f student-ui/
+oc get route
