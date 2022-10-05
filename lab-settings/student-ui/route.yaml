@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: student-ui
+spec:
+  to:
+    kind: Service
+    name: student-ui
+    weight: 100
+  port:
+    targetPort: 80
+  wildcardPolicy: None

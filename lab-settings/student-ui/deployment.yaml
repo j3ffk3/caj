@@ -1,0 +1,30 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: student-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-ui
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: student-ui
+    spec:
+      containers:
+        - resources: {}
+          stdin: true
+          terminationMessagePath: /dev/termination-log
+          name: novnc
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          terminationMessagePolicy: File
+          tty: true
+          image: 'docker.io/d0ck3rj3ff/student-ui:latest'
+      restartPolicy: Always

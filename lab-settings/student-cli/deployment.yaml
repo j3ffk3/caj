@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: student-cli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-cli
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: student-cli
+    spec:
+      containers:
+        - resources: {}
+          stdin: true
+          terminationMessagePath: /dev/termination-log
+          name: ose-cli
+          securityContext:
+            privileged: true
+          imagePullPolicy: IfNotPresent
+          terminationMessagePolicy: File
+          tty: true
+          image: 'docker.io/d0ck3rj3ff/ose-cli:latest'
+      restartPolicy: Always
