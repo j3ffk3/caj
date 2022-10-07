@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AppConfigService } from '../app-config.service';
 import { AppService } from '../app.service';
 
 @Component({
@@ -77,13 +79,34 @@ export class ScheduleComponent implements OnInit {
    */
    checkedValues:any;
 
-  constructor(appService: AppService) {
+   /**
+    * stoppingPattern
+    * @type {*}
+    * @memberof ScheduleComponent
+    */
+   stoppingPatternList: any[] = [];
+
+
+
+  constructor(appService: AppService,private http: HttpClient,private appConfigService:AppConfigService) {
     appService.pageTittle = '列車時刻表'
     appService.breadcrumb = [
       { label: '首頁' },
       { label: '時刻表' },
       { label: '列車時刻表' }
     ];
+
+    this.http.get(this.appConfigService.apiConfig.masterFileUrl+'/api/master-files/stoppings/A').subscribe((item:any)=>{
+      this.stoppingPatternList=item.data.stops.map((item:any)=>{
+        const obj={
+          station: item.stationName,
+          arrivalTime: '00:00',
+          departureTime: '00:00'
+        }
+        this.stoppingPatternList.push(obj)
+        return obj
+      });
+    })
   }
 
   ngOnInit(): void {
@@ -120,8 +143,8 @@ export class ScheduleComponent implements OnInit {
       {name: '直達', code: 'A'},
       {name: '跳蛙式', code: 'B'},
       {name: '站站停', code: 'C'},
-
     ]
+    
   }
 
   showDialog() {
@@ -131,5 +154,48 @@ export class ScheduleComponent implements OnInit {
   showAppendDialog() {
     this.displayAppendDialog = true;
   }
+
+  changeDepartureInput(){
+    this.http.get(this.appConfigService.apiConfig.masterFileUrl+'/api/master-files/stoppings/'+this.selectedStoppingPattern.code).subscribe((item:any)=>{
+      this.stoppingPatternList=item.data.stops.map((item:any)=>{
+        const obj={
+          station: item.stationName,
+          arrivalTime: '00:00',
+          departureTime: '00:00'
+        }
+        this.stoppingPatternList.push(obj)
+        return obj
+      });
+    })
+    
+  }
+
+
+  createSchedule(){
+    const obj={
+      trainNo: this.trainNo,
+      direction: this.selectedDirection.name,
+      stoppingPattern: this.selectedStoppingPattern.name,
+      freq: '',
+      departures: this.stoppingPatternList
+    }
+
+    this.checkedValues.forEach((item:any) => {
+      if(obj.freq){
+        obj.freq=obj.freq+','+item;
+      }else{
+        obj.freq=item
+      }
+      
+    });
+
+    this.http.post(this.appConfigService.apiConfig.scheduleUrl+'/api/schedule',obj).subscribe(item=>{
+      console.log(item);
+    });
+
+    this.displayAppendDialog=false
+  }
+
+
 
 }

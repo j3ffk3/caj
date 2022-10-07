@@ -1,0 +1,28 @@
+server:
+  port: 8082
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:lab
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
+    hikari:
+      connection-timeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      minimum-idle: 1
+      maximum-pool-size: 10
+      auto-commit: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER

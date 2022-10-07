@@ -58,11 +58,11 @@
     </div>
     <div class="col-6">
       <p>列車方向</p>
-      <p-dropdown [options]="direction" optionLabel="name"></p-dropdown>
+      <p-dropdown [options]="direction" [(ngModel)]="selectedDirection" optionLabel="name"></p-dropdown>
     </div>
     <div class="col-6">
       <p>停站模式</p>
-      <p-dropdown [options]="stoppingPattern" optionLabel="name"></p-dropdown>
+      <p-dropdown [options]="stoppingPattern" [(ngModel)]="selectedStoppingPattern" optionLabel="name" (onChange)="changeDepartureInput()"></p-dropdown>
     </div>
     <div class="col-12">
       <p>行駛日期</p>
@@ -78,21 +78,21 @@
     <div class="col-12">
       <p>發車時間</p>
     </div>
-    <ng-container>
+    <ng-container *ngFor="let item of stoppingPatternList">
       <div class="col-2">
-        <p>南港</p>
+        <p>{{item.station}}</p>
       </div>
       <div class="col-5">
-        <input type="text" pInputText [(ngModel)]="trainNo">
+        <input type="text" pInputText [(ngModel)]="item.arrivalTime">
       </div>
       <div class="col-5">
-        <input type="text" pInputText [(ngModel)]="trainNo">
+        <input type="text" pInputText [(ngModel)]="item.departureTime">
       </div>
     </ng-container>
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button (click)="displayAppendDialog=false" label="確認" styleClass="p-button-text"></p-button>
+    <p-button (click)="createSchedule()" label="確認" styleClass="p-button-text"></p-button>
     <p-button (click)="displayAppendDialog=false" label="取消" styleClass="p-button-text"></p-button>
   </ng-template>
 </p-dialog>

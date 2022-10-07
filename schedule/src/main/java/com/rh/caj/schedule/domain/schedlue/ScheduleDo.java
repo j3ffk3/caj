@@ -2,9 +2,13 @@ package com.rh.caj.schedule.domain.schedlue;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScheduleDo {
 
 	/**
@@ -20,12 +24,7 @@ public class ScheduleDo {
 	/**
 	 * freq
 	 */
-	String[] freq;
-	
-	/**
-	 * duration
-	 */
-	String duration;
+	String freq;
 	
 	/**
 	 * pattern
