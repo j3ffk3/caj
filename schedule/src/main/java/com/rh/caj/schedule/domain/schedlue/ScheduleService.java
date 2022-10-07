@@ -28,6 +28,6 @@ public class ScheduleService {
 	 * getSchedule
 	 */
 	public List<ScheduleDo> getSchedule() {
-		return null;
+		return scheduleRepository.findSchedules();
 	}
 }

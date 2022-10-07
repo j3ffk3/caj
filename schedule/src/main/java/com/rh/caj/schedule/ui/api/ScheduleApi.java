@@ -48,12 +48,14 @@ public class ScheduleApi {
 	/**
 	 * getSchedule
 	 * @return
+	 * @throws JsonProcessingException 
 	 */
 	@GetMapping(value = "/api/schedule", produces = "application/json")
-	public ResponseEntity<GenericResponseDTO> getSchedule() {
+	public ResponseEntity<GenericResponseDTO> getSchedule() throws JsonProcessingException {
 		// TODO
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
+				    .data(scheduleApplicationService.getSchedule())
 					.code(String.valueOf(HttpStatus.OK.value()))
 					.message(HttpStatus.OK.name())
 					.build(), HttpStatus.OK);

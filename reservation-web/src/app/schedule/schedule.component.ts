@@ -86,6 +86,7 @@ export class ScheduleComponent implements OnInit {
     */
    stoppingPatternList: any[] = [];
 
+   
 
 
   constructor(appService: AppService,private http: HttpClient,private appConfigService:AppConfigService) {
@@ -94,44 +95,6 @@ export class ScheduleComponent implements OnInit {
       { label: '首頁' },
       { label: '時刻表' },
       { label: '列車時刻表' }
-    ];
-
-    this.http.get(this.appConfigService.apiConfig.masterFileUrl+'/api/master-files/stoppings/A').subscribe((item:any)=>{
-      this.stoppingPatternList=item.data.stops.map((item:any)=>{
-        const obj={
-          station: item.stationName,
-          arrivalTime: '00:00',
-          departureTime: '00:00'
-        }
-        this.stoppingPatternList.push(obj)
-        return obj
-      });
-    })
-  }
-
-  ngOnInit(): void {
-    this.schedule = [
-      { a: 1000, b: '北上', c: 'SMTWTFS', d: '120', e: '站站停' },
-      { a: 1000, b: '北上', c: 'SMTWTFS', d: '120', e: '站站停' },
-      { a: 1000, b: '北上', c: 'SMTWTFS', d: '120', e: '站站停' },
-      { a: 1000, b: '南下', c: 'SMTWTFS', d: '120', e: '站站停' },
-      { a: 1000, b: '南下', c: 'SMTWTFS', d: '120', e: '站站停' },
-      { a: 1000, b: '南下', c: 'SMTWTFS', d: '120', e: '站站停' }
-    ]
-
-    this.scheduleDetail=[
-      { a: '南港', b: '起站', c: '00:00' },
-      { a: '台北', b: '00:00', c: '00:00' },
-      { a: '板橋', b: '00:00', c: '00:00' },
-      { a: '桃園', b: '00:00', c: '00:00' },
-      { a: '新竹', b: '00:00', c: '00:00' },
-      { a: '苗栗', b: '00:00', c: '00:00' },
-      { a: '台中', b: '00:00', c: '00:00' },
-      { a: '彰化', b: '00:00', c: '00:00' },
-      { a: '雲林', b: '00:00', c: '00:00' },
-      { a: '嘉義', b: '00:00', c: '00:00' },
-      { a: '台南', b: '00:00', c: '00:00' },
-      { a: '左營', b: '00:00', c: '迄站' },
     ];
 
     this.direction=[
@@ -144,10 +107,31 @@ export class ScheduleComponent implements OnInit {
       {name: '跳蛙式', code: 'B'},
       {name: '站站停', code: 'C'},
     ]
+
+    this.http.get(this.appConfigService.apiConfig.masterFileUrl+'/api/master-files/stoppings/A').subscribe((item:any)=>{
+      this.stoppingPatternList=item.data.stops.map((item:any)=>{
+        const obj={
+          station: item.stationName,
+          arrivalTime: '00:00',
+          departureTime: '00:00'
+        }
+        this.stoppingPatternList.push(obj);
+        return obj
+      });
+    })
+
+    this.http.get(this.appConfigService.apiConfig.scheduleUrl+'/api/schedule').subscribe((item:any)=>{
+      this.schedule=item.data;
+      console.log(item.data);
+    })
+  }
+
+  ngOnInit(): void {
     
   }
 
-  showDialog() {
+  showDialog(data:any) {
+    this.scheduleDetail=data;
     this.displayDialog = true;
   }
 
@@ -191,11 +175,13 @@ export class ScheduleComponent implements OnInit {
 
     this.http.post(this.appConfigService.apiConfig.scheduleUrl+'/api/schedule',obj).subscribe(item=>{
       console.log(item);
+      this.http.get(this.appConfigService.apiConfig.scheduleUrl+'/api/schedule').subscribe((item:any)=>{
+        this.schedule=item.data;
+        console.log(item.data);
+      })
     });
 
     this.displayAppendDialog=false
   }
-
-
 
 }

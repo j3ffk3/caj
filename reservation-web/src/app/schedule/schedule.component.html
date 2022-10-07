@@ -5,20 +5,18 @@
       <th>車次號碼</th>
       <th>北上/南下</th>
       <th>行駛日期</th>
-      <th>行駛時間(分鐘)</th>
       <th>停站模式</th>
       <th>發車時間</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-schedule>
     <tr>
-      <td>{{schedule.a}}</td>
-      <td>{{schedule.b}}</td>
-      <td>{{schedule.c}}</td>
-      <td>{{schedule.d}}</td>
-      <td>{{schedule.e}}</td>
+      <td>{{schedule.trainNo}}</td>
+      <td>{{schedule.direction}}</td>
+      <td>{{schedule.freq}}</td>
+      <td>{{schedule.pattern}}</td>
       <td>
-        <p-button (click)="showDialog()">
+        <p-button (click)="showDialog(schedule.departures)">
           <i class="pi pi-search" style="font-size: 1rem"></i>
         </p-button>
       </td>
@@ -38,9 +36,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-scheduleDetail>
       <tr>
-        <td>{{scheduleDetail.a}}</td>
-        <td>{{scheduleDetail.b}}</td>
-        <td>{{scheduleDetail.c}}</td>
+        <td>{{scheduleDetail.station}}</td>
+        <td>{{scheduleDetail.arrivalTime}}</td>
+        <td>{{scheduleDetail.departureTime}}</td>
       </tr>
     </ng-template>
   </p-table>

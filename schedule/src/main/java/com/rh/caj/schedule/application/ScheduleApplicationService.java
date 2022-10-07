@@ -1,5 +1,7 @@
 package com.rh.caj.schedule.application;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,14 @@ public class ScheduleApplicationService {
 	 */
 	public void createSchedule(ScheduleDo scheduleDo) throws JsonProcessingException {
 		scheduleService.createSchedule(scheduleDo);
+	}
+	
+	/**
+	 * createSchedule
+	 * @throws JsonProcessingException 
+	 */
+	public List<ScheduleDo> getSchedule() throws JsonProcessingException {
+		return scheduleService.getSchedule();
 	}
 	
 }
