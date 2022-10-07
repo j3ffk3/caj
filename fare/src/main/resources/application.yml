@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   main:
     allow-circular-references: true
@@ -19,4 +21,3 @@ fare:
    { "station": "嘉義"   ,"nak":"1120","tpe":"1080","bac":"1050","tay":"920","hsc":"790","mil":"640","tac":"380","cha":"250","yul":"150","chy":"-","tan":"-","zuy":"-"},
    { "station": "台南"   ,"nak":"1390","tpe":"1350","bac":"1320","tay":"1190","hsc":"1060","mil":"920","tac":"650","cha":"530","yul":"420","chy":"280","tan":"-","zuy":"-"},
    { "station": "左營"   ,"nak":"1530","tpe":"1490","bac":"1460","tay":"1330","hsc":"1200","mil":"1060","tac":"790","cha":"670","yul":"560","chy":"410","tan":"140","zuy":"-"}]
- 

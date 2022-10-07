@@ -8,9 +8,9 @@
   </ng-template>
   <ng-template pTemplate="body" let-patterns>
       <tr>
-          <td>{{patterns.a}}</td>
-          <td>{{patterns.b}}</td>
-          <td><p-steps [model]="patterns.c" [activeIndex]="-1"></p-steps></td>
+          <td>{{patterns.pattern}}</td>
+          <td>{{patterns.patternName}}</td>
+          <td><p-steps [model]="patterns.stops" [activeIndex]="-1"></p-steps></td>
       </tr>
   </ng-template>
 </p-table>

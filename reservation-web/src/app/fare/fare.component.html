@@ -1,4 +1,4 @@
-<p-dropdown [options]="farePlans" [(ngModel)]="selectedFarePlans" optionLabel="name"></p-dropdown>
+<p-dropdown [options]="farePlans" [(ngModel)]="selectedFarePlans" optionLabel="name" (onChange)="changeFareTable()" ></p-dropdown>
 <p-table [value]="fare" responsiveLayout="scroll">
   <ng-template pTemplate="header">
       <tr>
@@ -19,19 +19,19 @@
   </ng-template>
   <ng-template pTemplate="body" let-fare>
       <tr>
-          <td>{{fare.a}}</td>
-          <td>{{fare.b}}</td>
-          <td>{{fare.c}}</td>
-          <td>{{fare.d}}</td>
-          <td>{{fare.e}}</td>
-          <td>{{fare.f}}</td>
-          <td>{{fare.g}}</td>
-          <td>{{fare.h}}</td>
-          <td>{{fare.i}}</td>
-          <td>{{fare.j}}</td>
-          <td>{{fare.k}}</td>
-          <td>{{fare.l}}</td>
-          <td>{{fare.m}}</td>
+          <td>{{fare.station}}</td>
+          <td>{{fare.nak}}</td>
+          <td>{{fare.tpe}}</td>
+          <td>{{fare.bac}}</td>
+          <td>{{fare.tay}}</td>
+          <td>{{fare.hsc}}</td>
+          <td>{{fare.mil}}</td>
+          <td>{{fare.tac}}</td>
+          <td>{{fare.cha}}</td>
+          <td>{{fare.yul}}</td>
+          <td>{{fare.chy}}</td>
+          <td>{{fare.tan}}</td>
+          <td>{{fare.zuy}}</td>
       </tr>
   </ng-template>
 </p-table>

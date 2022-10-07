@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +19,8 @@ import {DropdownModule} from 'primeng/dropdown';
 import {InputTextModule} from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import {CheckboxModule} from 'primeng/checkbox';
+import { AppConfigService } from './app-config.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -45,9 +47,22 @@ import {CheckboxModule} from 'primeng/checkbox';
     DropdownModule,
     InputTextModule,
     FormsModule,
-    CheckboxModule
+    CheckboxModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        return () => {
+          //Make sure to return a promise!
+          return appConfigService.loadAppConfig();
+        };
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

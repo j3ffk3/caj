@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { MenuItem } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
+import { AppConfigService } from '../app-config.service';
 
 @Component({
   selector: 'app-stopping-pattern',
@@ -29,74 +31,28 @@ export class StoppingPatternComponent implements OnInit {
    */
   items2: MenuItem[] = [];
 
-  constructor(appService: AppService) {
+  constructor(appService: AppService,private http: HttpClient,appConfigService:AppConfigService) {
     appService.pageTittle = '停站模式'
     appService.breadcrumb = [
       { label: '首頁' },
       { label: '參數主檔' },
       { label: '停站模式' }
     ];
+
+    this.http.get(appConfigService.apiConfig.masterFileUrl+'/api/master-files/stoppings').subscribe((item:any)=>{
+      console.log(item.data);
+      this.patterns=item.data.map((x: any) => {
+        x.stops=x.stops.map((y: any) => {
+          y.label=y.stationName;
+          return y;
+        })
+        return x;
+      });
+      console.log(this.patterns)
+    });
   }
 
   ngOnInit(): void {
-    this.items = [
-      { label: '南港' },
-      { label: '台北' },
-      { label: '板橋' },
-      { label: '桃園' },
-      { label: '新竹' },
-      { label: '苗栗' },
-      { label: '台中' },
-      { label: '彰化' },
-      { label: '雲林' },
-      { label: '嘉義' },
-      { label: '台南' },
-      { label: '左營' }
-    ];
-
-    this.items2 = [
-      { label: '南港' },
-      { label: '台北' },
-      { label: '板橋' },
-      { label: '桃園' },
-      { label: '嘉義' },
-      { label: '台南' },
-      { label: '左營' }
-    ];
-
-    this.patterns = [
-      { a: 'A',
-        b: '直達',
-        c: [{ label: '南港' },
-        { label: '台北' },
-        { label: '板橋' },
-        { label: '台中' },
-        { label: '左營' }]},
-      { a: 'B', b: '跳蛙式', c: [{ label: '南港' },
-      { label: '台北' },
-      { label: '板橋' },{ label: '台中' },
-      { label: '彰化' },
-      { label: '雲林' },
-      { label: '嘉義' },
-      { label: '台南' },
-      { label: '左營' }] },
-      {
-        a: 'C',
-        b: '站站停',
-        c: [{ label: '南港' },
-        { label: '台北' },
-        { label: '板橋' },
-        { label: '桃園' },
-        { label: '新竹' },
-        { label: '苗栗' },
-        { label: '台中' },
-        { label: '彰化' },
-        { label: '雲林' },
-        { label: '嘉義' },
-        { label: '台南' },
-        { label: '左營' }]
-      }
-    ]
 
   }
 
