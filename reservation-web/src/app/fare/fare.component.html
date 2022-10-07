@@ -1,0 +1,37 @@
+<p-dropdown [options]="farePlans" [(ngModel)]="selectedFarePlans" optionLabel="name"></p-dropdown>
+<p-table [value]="fare" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>起/迄</th>
+          <th>南港</th>
+          <th>台北</th>
+          <th>板橋</th>
+          <th>桃園</th>
+          <th>新竹</th>
+          <th>苗栗</th>
+          <th>台中</th>
+          <th>彰化</th>
+          <th>雲林</th>
+          <th>嘉義</th>
+          <th>台南</th>
+          <th>左營</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-fare>
+      <tr>
+          <td>{{fare.a}}</td>
+          <td>{{fare.b}}</td>
+          <td>{{fare.c}}</td>
+          <td>{{fare.d}}</td>
+          <td>{{fare.e}}</td>
+          <td>{{fare.f}}</td>
+          <td>{{fare.g}}</td>
+          <td>{{fare.h}}</td>
+          <td>{{fare.i}}</td>
+          <td>{{fare.j}}</td>
+          <td>{{fare.k}}</td>
+          <td>{{fare.l}}</td>
+          <td>{{fare.m}}</td>
+      </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,22 @@
+<p-table [value]="stations" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>車站ID</th>
+          <th>中文站名</th>
+          <th>英文站名</th>
+          <th>簡碼</th>
+          <th>車站順序</th>
+          <th>站間距離</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-stations>
+      <tr>
+          <td>{{stations.a}}</td>
+          <td>{{stations.b}}</td>
+          <td>{{stations.c}}</td>
+          <td>{{stations.d}}</td>
+          <td>{{stations.e}}</td>
+          <td>{{stations.f}}</td>
+      </tr>
+  </ng-template>
+</p-table>

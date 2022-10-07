@@ -1,0 +1,16 @@
+.header {
+  background-color: #ca4f0f;
+  min-height: 80px;
+  color: white;
+}
+
+.body {
+  min-height: 800px;
+}
+
+.footer {
+  background-color: #ca4f0f;
+  color: white;
+  min-height: 80px;
+}
+

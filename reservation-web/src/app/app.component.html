@@ -1,0 +1,9 @@
+<div class="grid">
+  <div class="col-12 header"> <h2> Day2 CAJ</h2> </div>
+  <div class="col-12" ><p-menubar [model]="menuItems"></p-menubar></div>
+  <div class="col-12"> <h3>{{appService.pageTittle}}</h3><p-breadcrumb [model]="appService.breadcrumb"></p-breadcrumb></div>
+  <div class="col-12 body">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="col-12 footer"> <p>CAJ 鐵路股份有限公司 © CAJ Rail Corporation. All Rights Reserved.</p> </div>
+</div>

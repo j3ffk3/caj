@@ -1,0 +1,22 @@
+spring:
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+fare:
+  rate: 2
+  table: |-
+   [{ "station": "南港"  ,"nak":"-","tpe":"-","bac":"-","tay":"-","hsc":"-","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "台北"   ,"nak":"40","tpe":"-","bac":"-","tay":"-","hsc":"-","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "板橋"   ,"nak":"70","tpe":"40","bac":"-","tay":"-","hsc":"-","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "桃園"   ,"nak":"200","tpe":"160","bac":"130","tay":"-","hsc":"-","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "新竹"   ,"nak":"330","tpe":"290","bac":"280","tay":"130","hsc":"-","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "苗栗"   ,"nak":"480","tpe":"430","bac":"540","tay":"280","hsc":"140","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "台中"   ,"nak":"750","tpe":"700","bac":"670","tay":"540","hsc":"410","mil":"270","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "彰化"   ,"nak":"870","tpe":"820","bac":"790","tay":"670","hsc":"540","mil":"390","tac":"130","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "雲林"   ,"nak":"970","tpe":"930","bac":"900","tay":"780","hsc":"640","mil":"500","tac":"230","cha":"110","yul":"-","chy":"-","tan":"-","zuy":"-"},
+   { "station": "嘉義"   ,"nak":"1120","tpe":"1080","bac":"1050","tay":"920","hsc":"790","mil":"640","tac":"380","cha":"250","yul":"150","chy":"-","tan":"-","zuy":"-"},
+   { "station": "台南"   ,"nak":"1390","tpe":"1350","bac":"1320","tay":"1190","hsc":"1060","mil":"920","tac":"650","cha":"530","yul":"420","chy":"280","tan":"-","zuy":"-"},
+   { "station": "左營"   ,"nak":"1530","tpe":"1490","bac":"1460","tay":"1330","hsc":"1200","mil":"1060","tac":"790","cha":"670","yul":"560","chy":"410","tan":"140","zuy":"-"}]
+ 

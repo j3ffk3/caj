@@ -1,0 +1,16 @@
+<p-table [value]="patterns" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>停站模式代碼</th>
+          <th>停站模式</th>
+          <th>停靠站</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-patterns>
+      <tr>
+          <td>{{patterns.a}}</td>
+          <td>{{patterns.b}}</td>
+          <td><p-steps [model]="patterns.c" [activeIndex]="-1"></p-steps></td>
+      </tr>
+  </ng-template>
+</p-table>

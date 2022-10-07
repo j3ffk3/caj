@@ -1,0 +1,98 @@
+<p-button label="新增時刻表" (click)="showAppendDialog()"></p-button>
+<p-table [value]="schedule" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>車次號碼</th>
+      <th>北上/南下</th>
+      <th>行駛日期</th>
+      <th>行駛時間(分鐘)</th>
+      <th>停站模式</th>
+      <th>發車時間</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-schedule>
+    <tr>
+      <td>{{schedule.a}}</td>
+      <td>{{schedule.b}}</td>
+      <td>{{schedule.c}}</td>
+      <td>{{schedule.d}}</td>
+      <td>{{schedule.e}}</td>
+      <td>
+        <p-button (click)="showDialog()">
+          <i class="pi pi-search" style="font-size: 1rem"></i>
+        </p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- Dialog for detail -->
+<p-dialog header="發車時間" [(visible)]="displayDialog" [style]="{width: '50vw'}">
+  <p-table [value]="scheduleDetail" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>車站</th>
+        <th>到達時間</th>
+        <th>發車時間</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-scheduleDetail>
+      <tr>
+        <td>{{scheduleDetail.a}}</td>
+        <td>{{scheduleDetail.b}}</td>
+        <td>{{scheduleDetail.c}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayDialog=false" label="OK" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Dialog for append -->
+<p-dialog header="新增時刻表" [(visible)]="displayAppendDialog" [style]="{width: '50vw'}" responsiveLayout="scroll">
+  <div class="grid">
+    <div class="col-12">
+      <p>車次號碼</p>
+      <input type="text" pInputText [(ngModel)]="trainNo">
+    </div>
+    <div class="col-6">
+      <p>列車方向</p>
+      <p-dropdown [options]="direction" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="col-6">
+      <p>停站模式</p>
+      <p-dropdown [options]="stoppingPattern" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="col-12">
+      <p>行駛日期</p>
+      <p-checkbox label="Sun" name="groupname" value="Sun" [(ngModel)]="checkedValues"></p-checkbox>
+      <p-checkbox label="Mon" name="groupname" value="Mon" [(ngModel)]="checkedValues"></p-checkbox>
+      <p-checkbox label="Tue" name="groupname" value="Tue" [(ngModel)]="checkedValues"></p-checkbox>
+      <p-checkbox label="Wed" name="groupname" value="Wed" [(ngModel)]="checkedValues"></p-checkbox>
+      <p-checkbox label="Thu" name="groupname" value="Thu" [(ngModel)]="checkedValues"></p-checkbox>
+      <p-checkbox label="Fri" name="groupname" value="Fri" [(ngModel)]="checkedValues"></p-checkbox>
+      <p-checkbox label="Sat" name="groupname" value="Sat" [(ngModel)]="checkedValues"></p-checkbox>
+
+    </div>
+    <div class="col-12">
+      <p>發車時間</p>
+    </div>
+    <ng-container>
+      <div class="col-2">
+        <p>南港</p>
+      </div>
+      <div class="col-5">
+        <input type="text" pInputText [(ngModel)]="trainNo">
+      </div>
+      <div class="col-5">
+        <input type="text" pInputText [(ngModel)]="trainNo">
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button (click)="displayAppendDialog=false" label="確認" styleClass="p-button-text"></p-button>
+    <p-button (click)="displayAppendDialog=false" label="取消" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

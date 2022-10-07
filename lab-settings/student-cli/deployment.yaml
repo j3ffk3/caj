@@ -18,6 +18,13 @@ spec:
           stdin: true
           terminationMessagePath: /dev/termination-log
           name: ose-cli
+          env:
+          - name: http_proxy
+            value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
+          - name: https_proxy
+            value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
+          - name: no_proxy
+            value: 'penguin.rhtw.kubedev.org,rhtw.kubedev.org,192.168.100.0/24'
           securityContext:
             privileged: true
           imagePullPolicy: IfNotPresent
