@@ -26,6 +26,7 @@ public class StoppingRepositoryImpl implements StoppingRepository {
 
 	@Override
 	public StoppingDo findStoppingPattern(String patternId) {
+		
 		StoppingPatternPo stoppingPatternPo= stoppingPatternDao.findById(patternId).get();
 		StoppingDo stoppingDo = new StoppingDo();
 		stoppingDo.setPattern(stoppingPatternPo.getStoppingPatternId());

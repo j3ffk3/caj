@@ -1,7 +1,19 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id "org.sonarqube" version "3.4.0.2513"
 	id 'java'
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://sonarqube-speaker01.apps.penguin.rhtw.kubedev.org'
+        property "sonar.login", "admin"
+        property "sonar.password", "redhat"
+        property 'sonar.java.source', 11
+        property 'encoding', 'UTF-8'
+        property 'charSet', 'UTF-8'
+    }
 }
 
 group = 'com.example'
