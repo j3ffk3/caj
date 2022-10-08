@@ -1,4 +1,4 @@
-## Fare
+## MASTER-FILE
 * Swagger UI
 ```
 http://${DOMAIN}/swagger-ui.html
@@ -12,9 +12,9 @@ http://${DOMAIN}/swagger-ui.html
 * Code Scan
 ```bash=
 ./gradlew sonarqube \
--Dsonar.host.url=${SONARQUBE_URL} \
--Dsonar.login=${USER} \
--Dsonar.password=${PASSWORD} 
+  -Dsonar.host.url=${SONARQUBE_URL} \
+  -Dsonar.login=${USER} \
+  -Dsonar.password=${PASSWORD} 
 ```
 
 * Build Artifact
@@ -24,16 +24,15 @@ http://${DOMAIN}/swagger-ui.html
 
 * Build Image (COPY Artifact into image)
 ```bash=
-docker build -f Dockerfile-openjdk -t fare:latest .
+docker build -f Dockerfile-openjdk -t master-file:latest .
 ```
 
 * Build Image (Gradle build in image)
 ```bash=
-docker build -f Dockerfile-gradle -t fare:latest .
-```
+docker build -f Dockerfile-gradle -t master-file:latest .
 
 * Run image
 ```bash=
 # default port 8080
-docker run -p 8080:8080 fare:latest
+docker run -p 8080:8080 master-file:latest
 ```
