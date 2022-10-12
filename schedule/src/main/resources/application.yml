@@ -1,13 +1,16 @@
 spring:
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
     defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:lab;DB_CLOSE_DELAY=-1
-    username: sa
-    password: sa
-    driver-class-name: org.h2.Driver
+    url: ${DB_URL:jdbc:h2:mem:lab;DB_CLOSE_DELAY=-1}
+    username: ${DB_USER:sa}
+    password: ${DB_PXD:sa}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
     hikari:
       connection-timeout: 30000
       idleTimeout: 600000
