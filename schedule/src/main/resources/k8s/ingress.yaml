@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caj-schedule-ing
+spec:
+  rules:
+    - host: caj-schedule-speaker01-ing.apps.penguin.rhtw.kubedev.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: caj-schedule
+                port:
+                  number: 8080

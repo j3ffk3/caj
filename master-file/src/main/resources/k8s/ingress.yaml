@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caj-master-file-ing
+spec:
+  rules:
+    - host: caj-master-file-speaker01-ing.apps.penguin.rhtw.kubedev.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: caj-master-file
+                port:
+                  number: 8080

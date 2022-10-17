@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: caj-web
+spec:
+  host: caj-web-speaker01.apps.penguin.rhtw.kubedev.org
+  to:
+    kind: Service
+    name: caj-web
+    weight: 100
+  port:
+    targetPort: 8080

@@ -1,0 +1,20 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-schedule
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-schedule
+  template:
+    metadata:
+      labels:
+        app: caj-schedule
+    spec:
+      containers:
+        - name: caj-schedule
+          image: 'docker.io/d0ck3rj3ff/caj-schedule:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP

@@ -30,7 +30,7 @@ public class StoppingApi {
 	 */
 	@GetMapping(value = "/api/master-files/stoppings", produces = "application/json")
 	public ResponseEntity<GenericResponseDTO> getStoppings() {
-		// TODO
+		log.info("GET /api/master-files/stoppings");
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
 				    .data(stoppingPatternApplicationService.getPatternList())
@@ -46,8 +46,7 @@ public class StoppingApi {
 	 */
 	@GetMapping(value = "/api/master-files/stoppings/{stoppingId}", produces = "application/json")
 	public ResponseEntity<GenericResponseDTO> getStopping(@PathVariable("stoppingId") String stoppingId) {
-		// TODO
-		log.info("url:/api/master-files/stoppings/{stoppingId},id:{}",stoppingId);
+		log.info("GET /api/master-files/stoppings/{stoppingId},id:{}",stoppingId);
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
 				    .data(stoppingPatternApplicationService.getPattern(stoppingId))

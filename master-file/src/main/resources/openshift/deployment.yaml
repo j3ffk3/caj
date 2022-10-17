@@ -1,0 +1,20 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-master-file
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-master-file
+  template:
+    metadata:
+      labels:
+        app: caj-master-file
+    spec:
+      containers:
+        - name: caj-master-file
+          image: 'docker.io/d0ck3rj3ff/caj-master-file:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP

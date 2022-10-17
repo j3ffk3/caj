@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caj-web-ing
+spec:
+  rules:
+    - host: caj-web-speaker01-ing.apps.penguin.rhtw.kubedev.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: caj-web
+                port:
+                  number: 8080

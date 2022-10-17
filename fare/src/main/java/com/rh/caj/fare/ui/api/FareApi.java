@@ -31,7 +31,7 @@ public class FareApi {
 	@GetMapping(value = "/api/fare/{type}", produces = "application/json")
 	public ResponseEntity<GenericResponseDTO> getFare(@PathVariable("type") String type)
 			throws JsonMappingException, JsonProcessingException {
-		log.info(type);
+		log.info("GET /api/fare/{type}");
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode fareTableObj = mapper.readTree(fareTable);
 		if(type.equals("B")) {

@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: caj-master-file
+spec:
+  host: caj-master-file-speaker01.apps.penguin.rhtw.kubedev.org
+  to:
+    kind: Service
+    name: caj-master-file
+    weight: 100
+  port:
+    targetPort: 8080

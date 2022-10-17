@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: caj-schedule
+spec:
+  host: caj-schedule-speaker01.apps.penguin.rhtw.kubedev.org
+  to:
+    kind: Service
+    name: caj-schedule
+    weight: 100
+  port:
+    targetPort: 8080

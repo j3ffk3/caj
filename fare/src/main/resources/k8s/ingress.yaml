@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caj-fare-ing
+  namespace: speaker01
+spec:
+  rules:
+    - host: caj-fare-speaker01-ing.apps.penguin.rhtw.kubedev.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: caj-fare
+                port:
+                  number: 8080

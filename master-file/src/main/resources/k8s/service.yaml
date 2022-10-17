@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-master-file
+spec:
+  selector:
+    app: caj-master-file
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

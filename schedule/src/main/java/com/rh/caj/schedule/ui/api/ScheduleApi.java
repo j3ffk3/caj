@@ -37,6 +37,7 @@ public class ScheduleApi {
 	@PostMapping("/api/schedule")
 	public ResponseEntity<GenericResponseDTO>  createSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO) throws JsonProcessingException {
 		scheduleApplicationService.createSchedule(converter.toDo(scheduleRequestDTO));
+		log.info("POST /api/schedule");
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
 					.code(String.valueOf(HttpStatus.OK.value()))
@@ -52,7 +53,7 @@ public class ScheduleApi {
 	 */
 	@GetMapping(value = "/api/schedule", produces = "application/json")
 	public ResponseEntity<GenericResponseDTO> getSchedule() throws JsonProcessingException {
-		// TODO
+		log.info("GET /api/schedule");
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
 				    .data(scheduleApplicationService.getSchedule())

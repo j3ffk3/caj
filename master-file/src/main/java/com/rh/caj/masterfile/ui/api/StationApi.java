@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rh.caj.masterfile.application.StationApplicationService;
 import com.rh.caj.masterfile.ui.dto.GenericResponseDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin("*")
 @RestController
 public class StationApi {
@@ -26,7 +29,7 @@ public class StationApi {
 	 */
 	@GetMapping(value = "/api/master-files/stations", produces = "application/json")
 	public ResponseEntity<GenericResponseDTO> getStations() {
-		// TODO
+		log.info("GET /api/master-files/stations");
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
 				    .data(stationApplicationService.getStationList())

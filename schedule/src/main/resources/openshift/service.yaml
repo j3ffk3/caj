@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-schedule
+spec:
+  selector:
+    app: caj-schedule
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
