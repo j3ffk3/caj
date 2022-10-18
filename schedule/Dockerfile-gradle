@@ -1,5 +1,5 @@
 FROM registry.access.redhat.com/ubi8/openjdk-11:latest
-ENV APP_HOME=/home/jboss PROXY=proxy.penguin.rhtw.kubedev.org PROXY_PORT=3128
+ENV APP_HOME=/home/jboss APP_NAME=schedule PROXY=proxy.penguin.rhtw.kubedev.org PROXY_PORT=3128
 EXPOSE 8080
 WORKDIR ${APP_HOME}
 USER root
@@ -15,5 +15,6 @@ RUN ./gradlew \
 -Dhttps.proxyHost=${PROXY}  \
 -Dhttps.proxyPort=${PROXY_PORT} \
 -Dhttp.proxyHost=${PROXY} \
--Dhttp.proxyPort=${PROXY_PORT} 
-CMD [ "java","-jar","${APP_HOME}/build/libs/schedule-0.0.1-SNAPSHOT.jar" ]
+-Dhttp.proxyPort=${PROXY_PORT} \
+&& cp ${APP_HOME}/build/libs/${APP_NAME}-0.0.1-SNAPSHOT.jar ./app.jar
+CMD [ "java","-jar","app.jar" ]

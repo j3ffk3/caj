@@ -15,5 +15,6 @@ RUN ./gradlew \
 -Dhttps.proxyHost=${PROXY}  \
 -Dhttps.proxyPort=${PROXY_PORT} \
 -Dhttp.proxyHost=${PROXY} \
--Dhttp.proxyPort=${PROXY_PORT} 
-CMD [ "java","-jar","${APP_HOME}/build/libs/${APP_NAME}-0.0.1-SNAPSHOT.jar" ]
+-Dhttp.proxyPort=${PROXY_PORT} \
+&& cp ${APP_HOME}/build/libs/${APP_NAME}-0.0.1-SNAPSHOT.jar ./app.jar
+CMD [ "java","-jar","app.jar" ]
