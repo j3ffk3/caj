@@ -1,7 +1,19 @@
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.14-5
+FROM registry.access.redhat.com/ubi8/openjdk-11:latest
+ENV APP_HOME=/home/jboss PROXY=proxy.penguin.rhtw.kubedev.org PROXY_PORT=3128
+EXPOSE 8080
+WORKDIR ${APP_HOME}
 USER root
 COPY . .
-RUN chown -R jboss:root /home/jboss
+RUN chown -R jboss:root ${APP_HOME}
 USER jboss
-RUN ./gradlew clean && ./gradlew build
-CMD java -Djava.net.preferIPv4Stack=true -jar /home/jboss/build/libs/schedule-0.0.1-SNAPSHOT.jar
+RUN ./gradlew \
+-Dhttps.proxyHost=${PROXY}  \
+-Dhttps.proxyPort=${PROXY_PORT} \
+-Dhttp.proxyHost=${PROXY} \
+-Dhttp.proxyPort=${PROXY_PORT} \
+&& ./gradlew build \
+-Dhttps.proxyHost=${PROXY}  \
+-Dhttps.proxyPort=${PROXY_PORT} \
+-Dhttp.proxyHost=${PROXY} \
+-Dhttp.proxyPort=${PROXY_PORT} 
+CMD [ "java","-jar","${APP_HOME}/build/libs/schedule-0.0.1-SNAPSHOT.jar" ]

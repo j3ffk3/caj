@@ -1,12 +1,10 @@
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.14-5
-
-COPY ./build/libs/schedule-0.0.1-SNAPSHOT.jar /home/jboss/app.jar
-
+FROM registry.access.redhat.com/ubi8/openjdk-11:latest
+ENV APP_HOME=/home/jboss APP_NAME=schedule
+EXPOSE 8080
+WORKDIR ${APP_HOME}
+COPY ./build/libs/${APP_NAME}-0.0.1-SNAPSHOT.jar ./app.jar
 USER root
-
-RUN chown jboss:root /home/jboss && \
-    chmod -R 755 /home/jboss/app.jar
-
+RUN chown jboss:root ${APP_HOME} && \
+    chmod -R 755 ${APP_HOME}/app.jar
 USER jboss
-
-CMD java -Djava.net.preferIPv4Stack=true -jar /home/jboss/app.jar
+CMD [ "java","-jar","app.jar" ]
