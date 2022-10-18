@@ -1,7 +1,18 @@
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.14-5
+FROM registry.access.redhat.com/ubi8/openjdk-11:latest
+EXPOSE 8080
+WORKDIR /home/jboss
 USER root
 COPY . .
 RUN chown -R jboss:root /home/jboss
 USER jboss
-RUN ./gradlew clean && ./gradlew build
-CMD java -Djava.net.preferIPv4Stack=true -jar /home/jboss/build/libs/fare-0.0.1-SNAPSHOT.jar
+RUN ./gradlew \
+-Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org  \
+-Dhttps.proxyPort=3128 \
+-Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org \
+-Dhttp.proxyPort=3128 \
+&& ./gradlew build \
+-Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org  \
+-Dhttps.proxyPort=3128 \
+-Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org \
+-Dhttp.proxyPort=3128 
+CMD [ "java","-jar","app.jar" ]

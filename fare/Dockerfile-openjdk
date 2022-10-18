@@ -1,6 +1,10 @@
-FROM registry.access.redhat.com/ubi8/openjdk-11:1.14-5
+FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 
-COPY ./build/libs/fare-0.0.1-SNAPSHOT.jar /home/jboss/app.jar
+EXPOSE 8080
+
+WORKDIR /home/jboss
+
+COPY ./build/libs/fare-0.0.1-SNAPSHOT.jar ./app.jar
 
 USER root
 
@@ -9,4 +13,4 @@ RUN chown jboss:root /home/jboss && \
 
 USER jboss
 
-CMD java -Djava.net.preferIPv4Stack=true -jar /home/jboss/app.jar
+CMD [ "java","-jar","app.jar" ]
