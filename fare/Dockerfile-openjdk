@@ -1,16 +1,10 @@
 FROM registry.access.redhat.com/ubi8/openjdk-11:latest
-
+ENV APP_HOME=/home/jboss
 EXPOSE 8080
-
-WORKDIR /home/jboss
-
+WORKDIR ${APP_HOME}
 COPY ./build/libs/fare-0.0.1-SNAPSHOT.jar ./app.jar
-
 USER root
-
-RUN chown jboss:root /home/jboss && \
-    chmod -R 755 /home/jboss/app.jar
-
+RUN chown jboss:root ${APP_HOME} && \
+    chmod -R 755 ${APP_HOME}/app.jar
 USER jboss
-
 CMD [ "java","-jar","app.jar" ]
