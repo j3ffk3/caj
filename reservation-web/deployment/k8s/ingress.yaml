@@ -4,7 +4,7 @@ metadata:
   name: caj-web-ing
 spec:
   rules:
-    - host: caj-web-speaker01-ing.apps.penguin.rhtw.kubedev.org
+    - host: caj-web-${STUDENT_ID}-ing.apps.penguin.rhtw.kubedev.org
       http:
         paths:
           - path: /
