@@ -3,7 +3,7 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: caj-fare
 spec:
-  host: caj-fare-speaker01.apps.penguin.rhtw.kubedev.org
+  host: caj-fare-${STUDENT_ID}.apps.penguin.rhtw.kubedev.org
   to:
     kind: Service
     name: caj-fare

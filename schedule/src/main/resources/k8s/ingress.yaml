@@ -4,7 +4,7 @@ metadata:
   name: caj-schedule-ing
 spec:
   rules:
-    - host: caj-schedule-speaker01-ing.apps.penguin.rhtw.kubedev.org
+    - host: caj-schedule-${STUDENT_ID}-ing.apps.penguin.rhtw.kubedev.org
       http:
         paths:
           - path: /

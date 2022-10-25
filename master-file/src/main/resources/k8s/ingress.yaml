@@ -4,7 +4,7 @@ metadata:
   name: caj-master-file-ing
 spec:
   rules:
-    - host: caj-master-file-speaker01-ing.apps.penguin.rhtw.kubedev.org
+    - host: caj-master-file-${STUDENT_ID}-ing.apps.penguin.rhtw.kubedev.org
       http:
         paths:
           - path: /

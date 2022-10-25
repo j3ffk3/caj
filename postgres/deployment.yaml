@@ -1,0 +1,33 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      volumes:
+      - name: ${STUDENT_ID}-pvc
+        persistentVolumeClaim:
+          claimName: ${STUDENT_ID}-pvc
+      containers:
+        - name: postgres
+          image: 'registry.redhat.io/rhel8/postgresql-10:latest'
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: POSTGRESQL_ADMIN_PASSWORD
+          volumeMounts:
+          - mountPath: /var/lib/pgsql/data
+            name: ${STUDENT_ID}-pvc

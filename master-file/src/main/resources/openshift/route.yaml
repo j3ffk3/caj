@@ -3,7 +3,7 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: caj-master-file
 spec:
-  host: caj-master-file-speaker01.apps.penguin.rhtw.kubedev.org
+  host: caj-master-file-${STUDENT_ID}.apps.penguin.rhtw.kubedev.org
   to:
     kind: Service
     name: caj-master-file

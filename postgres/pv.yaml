@@ -1,0 +1,17 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: ${STUDENT_ID}-pv
+spec:
+  claimRef:
+    namespace: ${STUDENT_ID}
+    name: ${STUDENT_ID}-pvc
+  capacity:
+    storage: 10Gi
+  nfs:
+    server: 192.168.100.13
+    path: /data/nfshare/student-data/${STUDENT_ID}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem

@@ -9,6 +9,7 @@ spec:
       app: caj-master-file
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: caj-master-file
     spec:
@@ -18,3 +19,29 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
+          env:
+            - name: DB_DIALECT
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_DIALECT
+            - name: DB_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_DRIVER
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_URL
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_USER
+            - name: DB_PXD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PXD

@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: db-config
+data:
+  DB_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+  DB_DRIVER: org.postgresql.Driver
+  DB_URL: 'jdbc:postgresql://postgres:5432/postgres'
+  DB_USER: postgres
