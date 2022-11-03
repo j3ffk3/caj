@@ -8,7 +8,7 @@ cd caj/openshift-install/
 ![](https://i.imgur.com/khsMHdF.png)
 
 
-2. Install OpenShift Install Client Ready
+2. Install OpenShift Install Client
 ```bash=
 wget -c https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.10.34/openshift-install-linux-4.10.34.tar.gz -O - | tar -xz
 mv openshift-install /usr/local/bin/
