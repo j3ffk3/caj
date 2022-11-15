@@ -34,3 +34,11 @@ spring:
       exporter:  
         otlp:  
           endpoint: http://jaeger-collector:4317
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - prometheus     
