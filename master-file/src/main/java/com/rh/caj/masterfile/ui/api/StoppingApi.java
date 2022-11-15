@@ -1,9 +1,9 @@
 package com.rh.caj.masterfile.ui.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +14,6 @@ import com.rh.caj.masterfile.ui.dto.GenericResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin("*")
 @RestController
 public class StoppingApi {
 	
@@ -24,6 +23,9 @@ public class StoppingApi {
 	@Autowired
 	StoppingPatternApplicationService stoppingPatternApplicationService;
 
+	@Autowired
+	Tracer tracer;
+	
 	/**
 	 * getStoppings
 	 * @return
@@ -36,6 +38,7 @@ public class StoppingApi {
 				    .data(stoppingPatternApplicationService.getPatternList())
 					.code(String.valueOf(HttpStatus.OK.value()))
 					.message(HttpStatus.OK.name())
+					.traceId(tracer.currentSpan().context().traceId())
 					.build(), HttpStatus.OK);
 	}
 	

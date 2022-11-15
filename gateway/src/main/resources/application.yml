@@ -3,6 +3,16 @@ spring:
     name: gateway  
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
       routes:
       - id: master-file
         uri: ${MASTER_FILE_URI:http://127.0.0.1:8081}
@@ -13,7 +23,7 @@ spring:
         predicates:
         - Path=/api/fare/**
       - id: schedule
-        uri: ${SCHEDULE_URI:http://127.0.0.1:8082}
+        uri: ${SCHEDULE_URI:http://127.0.0.1:8083}
         predicates:
         - Path=/api/schedule/**
   sleuth:  

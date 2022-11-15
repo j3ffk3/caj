@@ -27,5 +27,10 @@ public class GenericResponseDTO {
 	 * 回傳資料
 	 */
 	private Object data;
+	
+	/**
+	 * Trace ID
+	 */
+	private String traceId;
 
 }

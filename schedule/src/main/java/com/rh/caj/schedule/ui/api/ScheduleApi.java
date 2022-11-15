@@ -1,9 +1,9 @@
 package com.rh.caj.schedule.ui.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,6 @@ import com.rh.caj.schedule.ui.dto.ScheduleRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin("*")
 @RestController
 public class ScheduleApi {
 	
@@ -27,6 +26,9 @@ public class ScheduleApi {
 	
 	@Autowired
 	ScheduleApplicationService scheduleApplicationService;
+	
+	@Autowired
+	Tracer tracer;
 	
 	/**
 	 * createSchedule
@@ -42,6 +44,7 @@ public class ScheduleApi {
 				GenericResponseDTO.builder()
 					.code(String.valueOf(HttpStatus.OK.value()))
 					.message(HttpStatus.OK.name())
+					.traceId(tracer.currentSpan().context().traceId())
 					.build(), HttpStatus.OK);
 		
 	}
@@ -59,6 +62,7 @@ public class ScheduleApi {
 				    .data(scheduleApplicationService.getSchedule())
 					.code(String.valueOf(HttpStatus.OK.value()))
 					.message(HttpStatus.OK.name())
+					.traceId(tracer.currentSpan().context().traceId())
 					.build(), HttpStatus.OK);
 	}
 	
