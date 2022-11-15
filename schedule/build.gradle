@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4'
+	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id "org.sonarqube" version "3.4.0.2513"
 	id 'java'
@@ -28,6 +28,9 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+        url "https://repo.spring.io/milestone"
+    }
 }
 
 dependencies {
@@ -37,6 +40,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation('org.springframework.cloud:spring-cloud-starter-sleuth') {exclude group: 'org.springframework.cloud', module: 'spring-cloud-sleuth-brave'}
 	implementation 'org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure'
+	implementation 'io.opentelemetry:opentelemetry-exporter-otlp-trace'
+	implementation 'io.grpc:grpc-okhttp:1.50.0'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.2.32'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -48,8 +53,8 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.4"
-		mavenBom 'org.springframework.cloud:spring-cloud-sleuth-otel-dependencies:1.1.0'
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.4"
+		mavenBom 'org.springframework.cloud:spring-cloud-sleuth-otel-dependencies:1.0.0-M12'
 	}
 }
 
