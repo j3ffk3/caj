@@ -29,3 +29,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+  sleuth:  
+    otel:
+      exporter:  
+        otlp:  
+          endpoint: http://jaeger-collector:4317

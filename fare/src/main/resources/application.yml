@@ -1,10 +1,18 @@
 spring:
+  application:
+    name: fare
   main:
     allow-circular-references: true
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+  sleuth:  
+    otel:
+      exporter:  
+        otlp:  
+          endpoint: http://jaeger-collector:4317
 fare:
+  stationAPI: ${STATION_API:http://localhost:8081/api/master-files/stations}
   rate: 2
   table: |-
    [{ "station": "南港"  ,"nak":"-","tpe":"-","bac":"-","tay":"-","hsc":"-","mil":"-","tac":"-","cha":"-","yul":"-","chy":"-","tan":"-","zuy":"-"},

@@ -1,0 +1,12 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: caj-gateway
+spec:
+  host: caj-gateway-${STUDENT_ID}.apps.penguin.rhtw.kubedev.org
+  to:
+    kind: Service
+    name: caj-gateway
+    weight: 100
+  port:
+    targetPort: 8080

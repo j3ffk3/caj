@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caj-gateway-ing
+spec:
+  rules:
+    - host: caj-gateway-${STUDENT_ID}-ing.apps.penguin.rhtw.kubedev.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: caj-gateway
+                port:
+                  number: 8080

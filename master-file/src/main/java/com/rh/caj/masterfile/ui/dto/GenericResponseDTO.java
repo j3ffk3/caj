@@ -1,5 +1,8 @@
 package com.rh.caj.masterfile.ui.dto;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.sleuth.Tracer;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -12,6 +15,9 @@ import lombok.Data;
 @Builder
 @JsonInclude(Include.NON_NULL)
 public class GenericResponseDTO {
+	
+	@Autowired
+	Tracer tracer;
 
 	/**
 	 * 回應代碼
@@ -27,5 +33,10 @@ public class GenericResponseDTO {
 	 * 回傳資料
 	 */
 	private Object data;
+	
+	/**
+	 * Trace ID
+	 */
+	private String traceId;
 
 }

@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: master-file 
   jpa:
     database-platform: ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
     defer-datasource-initialization: true
@@ -26,6 +28,14 @@ spring:
         web-allow-others: true
   main:
     allow-circular-references: true
+  sleuth:  
+    otel:
+      log:
+        slf4j:
+          enabled: true  
+      exporter:  
+        otlp:  
+          endpoint: http://collector:4317
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER

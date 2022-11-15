@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-gateway
+spec:
+  selector:
+    app: caj-gateway
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

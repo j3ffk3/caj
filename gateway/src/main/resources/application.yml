@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: gateway  
+  cloud:
+    gateway:
+      routes:
+      - id: master-file
+        uri: ${MASTER_FILE_URI:http://127.0.0.1:8081}
+        predicates:
+        - Path=/api/master-files/**
+      - id: fare
+        uri: ${FARE_URI:http://127.0.0.1:8082}
+        predicates:
+        - Path=/api/fare/**
+      - id: schedule
+        uri: ${SCHEDULE_URI:http://127.0.0.1:8082}
+        predicates:
+        - Path=/api/schedule/**
+  sleuth:  
+    otel:
+      exporter:  
+        otlp:  
+          endpoint: http://jaeger-collector:4317

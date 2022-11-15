@@ -1,0 +1,20 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-gateway
+  template:
+    metadata:
+      labels:
+        app: caj-gateway
+    spec:
+      containers:
+        - name: caj-gateway
+          image: 'docker.io/d0ck3rj3ff/caj-gateway:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
