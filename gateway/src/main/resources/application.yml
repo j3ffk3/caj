@@ -26,11 +26,13 @@ spring:
         uri: ${SCHEDULE_URI:http://127.0.0.1:8083}
         predicates:
         - Path=/api/schedule/**
-  sleuth:  
+  sleuth:
     otel:
-      exporter:  
-        otlp:  
-          endpoint: http://jaeger-collector.istio-system.svc.cluster.local:4317
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: ${JAEGER_URI:http://jaeger-collector.istio-system.svc.cluster.local:4317}
 management:
   endpoints:
     web:

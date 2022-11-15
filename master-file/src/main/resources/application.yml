@@ -28,14 +28,13 @@ spring:
         web-allow-others: true
   main:
     allow-circular-references: true
-  sleuth:  
+  sleuth:
     otel:
-      log:
-        slf4j:
-          enabled: true  
-      exporter:  
-        otlp:  
-          endpoint: http://jaeger-collector.istio-system.svc.cluster.local:4317
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: ${JAEGER_URI:http://jaeger-collector.istio-system.svc.cluster.local:4317}
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
