@@ -30,7 +30,7 @@ spring:
     otel:
       exporter:  
         otlp:  
-          endpoint: http://jaeger-collector:4317
+          endpoint: http://jaeger-collector.istio-system.svc.cluster.local:4317
 management:
   endpoints:
     web:
