@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: schedule
   jpa:
     database-platform: ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
     defer-datasource-initialization: true
@@ -31,9 +33,9 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   sleuth:  
     otel:
-      exporter:  
+      exporter:
         otlp:  
-          endpoint: http://jaeger-collector.istio-system.svc.cluster.local:4317
+          endpoint: http://localhost:4317
 management:
   endpoints:
     web:
