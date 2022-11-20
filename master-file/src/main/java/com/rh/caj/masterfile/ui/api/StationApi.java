@@ -33,11 +33,8 @@ public class StationApi {
 	 * @return
 	 */
 	@GetMapping(value = "/api/master-files/stations", produces = "application/json")
-	public ResponseEntity<GenericResponseDTO> getStations(@RequestHeader Map<String, String> headers) {
+	public ResponseEntity<GenericResponseDTO> getStations() {
 		log.info("GET /api/master-files/stations");
-		 headers.forEach((key, value) -> {
-		        log.info(String.format("Header '%s' = %s", key, value));
-		    });
 		return new ResponseEntity<>(
 				GenericResponseDTO.builder()
 				    .data(stationApplicationService.getStationList())
