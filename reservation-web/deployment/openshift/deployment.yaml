@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: caj-web
+        version: v1
     spec:
       volumes:
         - name: config-volume

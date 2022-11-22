@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: caj-virtual-service
+spec:
+  gateways:
+  - caj-speaker01-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: caj-gateway
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: caj-web
+        port:
+          number: 8080

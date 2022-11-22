@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: caj-fare
+        version: v1
     spec:
       containers:
         - name: caj-fare

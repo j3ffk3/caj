@@ -9,9 +9,9 @@ spec:
       app: caj-master-file
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: caj-master-file
+        version: v1
     spec:
       containers:
         - name: caj-master-file
