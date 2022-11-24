@@ -89,7 +89,7 @@ export class ScheduleComponent implements OnInit {
    
 
 
-  constructor(appService: AppService,private http: HttpClient,private appConfigService:AppConfigService) {
+  constructor(public appService: AppService,private http: HttpClient,private appConfigService:AppConfigService) {
     appService.pageTittle = '列車時刻表'
     appService.breadcrumb = [
       { label: '首頁' },

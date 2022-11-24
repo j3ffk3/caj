@@ -7,6 +7,13 @@ import { MenuItem } from 'primeng/api';
 export class AppService {
 
   /**
+   * webTittle
+   * @type {string}
+   * @memberof AppService
+   */
+  webTittle: string= 'CAJ';
+
+  /**
    * pageTittle
    * @type {string}
    * @memberof AppService

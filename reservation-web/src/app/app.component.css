@@ -4,6 +4,13 @@
   color: white;
 }
 
+.header2 {
+  background-color: blue;
+  min-height: 80px;
+  color: white;
+}
+
+
 .body {
   min-height: 800px;
 }
@@ -14,3 +21,13 @@
   min-height: 80px;
 }
 
+.footer2 {
+  background-color: blue;
+  color: white;
+  min-height: 80px;
+}
+
+.blueback {
+  background: blue !important;
+  border: 1px solid blue !important;
+}

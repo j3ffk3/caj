@@ -1,6 +1,8 @@
 import { AppService } from './app.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AppConfigService } from './app-config.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -29,8 +31,13 @@ export class AppComponent implements OnInit {
    */
   breadcrumb: MenuItem[] = [];
 
-  constructor(public appService:AppService ){
-
+  constructor(public appService:AppService,private http: HttpClient,appConfigService:AppConfigService ){
+    const webNameApiUrl=appConfigService.apiConfig.masterFileUrl+'/api/master-files/web-name';
+    this.http.get(webNameApiUrl).subscribe((item:any)=>{
+      console.log(item.data);
+      this.appService.webTittle=item.data;
+      this.title=item.data;
+    });
   }
 
   ngOnInit(): void {

@@ -4,7 +4,7 @@ metadata:
   name: caj-virtual-service
 spec:
   gateways:
-  - caj-speaker01-gateway
+  - caj-gateway
   hosts:
   - '*'
   http:

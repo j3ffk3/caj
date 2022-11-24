@@ -45,4 +45,6 @@ management:
         include:
         - health
         - info
-        - prometheus     
+        - prometheus
+caj-web:
+  tittle: ${WEB_TITTLE:Day2 CAJ v1}
