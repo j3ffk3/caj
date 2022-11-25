@@ -1,6 +1,17 @@
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
+  name: caj-web
+spec:
+  host: caj-web
+  subsets:
+  - labels:
+      version: v1
+    name: v1
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
   name: caj-gateway
 spec:
   host: caj-gateway
@@ -37,17 +48,6 @@ metadata:
   name: caj-schedule
 spec:
   host: caj-schedule
-  subsets:
-  - labels:
-      version: v1
-    name: v1
----
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: caj-web
-spec:
-  host: caj-web
   subsets:
   - labels:
       version: v1
