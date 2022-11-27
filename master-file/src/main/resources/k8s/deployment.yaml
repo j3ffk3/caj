@@ -2,11 +2,15 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: caj-master-file
+  labels:
+    app: caj-master-file
+    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: caj-master-file
+      version: v1
   template:
     metadata:
       creationTimestamp: null

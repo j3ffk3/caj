@@ -1,25 +1,25 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: caj-schedule
+  name: caj-master-file
   labels:
-    app: caj-schedule
+    app: caj-master-file
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: caj-schedule
+      app: caj-master-file
       version: v1
   template:
     metadata:
       labels:
-        app: caj-schedule
+        app: caj-master-file
         version: v1
     spec:
       containers:
-        - name: caj-schedule
-          image: 'docker.io/d0ck3rj3ff/caj-schedule:latest'
+        - name: caj-master-file
+          image: 'docker.io/d0ck3rj3ff/caj-master-file:latest'
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -49,3 +49,5 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: DB_PXD
+            - name: WEB_TITTLE
+              value: Day2 CAJ v2

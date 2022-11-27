@@ -2,6 +2,9 @@ kind: Service
 apiVersion: v1
 metadata:
   name: caj-web
+  labels:
+    app: caj-web
+    service: caj-web
 spec:
   selector:
     app: caj-web
@@ -9,3 +12,4 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+      name: http
