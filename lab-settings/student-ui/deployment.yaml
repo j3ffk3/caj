@@ -13,21 +13,55 @@ spec:
       labels:
         app: student-ui
     spec:
+      volumes:
+        - name: trusted-ca
+          configMap:
+            name: trusted-ca
+            items:
+              - key: ca-bundle.crt
+                path: tls-ca-bundle.pem
+            defaultMode: 420
       containers:
         - resources: {}
           stdin: true
           terminationMessagePath: /dev/termination-log
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - '-c'
+                  - >-
+                    echo 'oc login -u ${STUDENT_ID} -p ${STUDENT_ID}
+                    https://api.penguin.rhtw.kubedev.org:6443
+                    --insecure-skip-tls-verify=true' >> ~/.bashrc
           name: ose-cli
           env:
-          - name: http_proxy
-            value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
-          - name: https_proxy
-            value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
-          - name: no_proxy
-            value: 'penguin.rhtw.kubedev.org,rhtw.kubedev.org,192.168.100.0/24,localhost,postgresql.speaker01.svc.cluster.local'
+            - name: http_proxy
+              value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
+            - name: https_proxy
+              value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
+            - name: no_proxy
+              value: >-
+                penguin.rhtw.kubedev.org,rhtw.kubedev.org,192.168.100.0/24,localhost
+            - name: GRADLE_PROXY
+              value: >-
+                -Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org
+                -Dhttps.proxyPort=3128
+                -Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org
+                -Dhttp.proxyPort=3128
+            - name: STUDENT_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
           securityContext:
             privileged: true
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: trusted-ca
+              readOnly: true
+              mountPath: /etc/pki/ca-trust/extracted/pem
           terminationMessagePolicy: File
           tty: true
           image: 'docker.io/d0ck3rj3ff/ose-cli:latest'
@@ -36,19 +70,42 @@ spec:
           terminationMessagePath: /dev/termination-log
           name: novnc
           env:
-          - name: http_proxy
-            value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
-          - name: https_proxy
-            value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
-          - name: no_proxy
-            value: 'penguin.rhtw.kubedev.org,rhtw.kubedev.org,192.168.100.0/24,localhost,postgresql.speaker01.svc.cluster.local'
+            - name: http_proxy
+              value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
+            - name: https_proxy
+              value: 'http://proxy.penguin.rhtw.kubedev.org:3128'
+            - name: no_proxy
+              value: >-
+                penguin.rhtw.kubedev.org,rhtw.kubedev.org,192.168.100.0/24,localhost
+            - name: OCP_USER_ID
+              value: admin
+            - name: STUDENT_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
           securityContext:
             privileged: true
           ports:
             - containerPort: 80
               protocol: TCP
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           terminationMessagePolicy: File
           tty: true
           image: 'docker.io/d0ck3rj3ff/student-ui:latest'
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+      hostAliases:
+        - ip: 192.168.100.13
+          hostnames:
+            - registry.rhtw.kubedev.org
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
