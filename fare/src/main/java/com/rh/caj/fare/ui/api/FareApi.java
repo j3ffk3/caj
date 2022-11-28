@@ -56,7 +56,7 @@ public class FareApi {
 	
 	@ExceptionHandler(HttpServerErrorException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ResponseEntity<GenericResponseDTO> handleHttpServerErrorException(ResourceAccessException exception){
+	public ResponseEntity<GenericResponseDTO> handleHttpServerErrorException(HttpServerErrorException exception){
 		log.info(exception.getMessage());
 		return new ResponseEntity<>(GenericResponseDTO.builder()
 				.data(exception.getMessage())
