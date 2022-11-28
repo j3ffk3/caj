@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: web-config
+data:
+  config.json: >
+    {"masterFileUrl":"http://${STUDENT_ID}.istio-gateway.apps.penguin.rhtw.kubedev.org","fareUrl":"http://${STUDENT_ID}.istio-gateway.apps.penguin.rhtw.kubedev.org","scheduleUrl":"http://${STUDENT_ID}.istio-gateway.apps.penguin.rhtw.kubedev.org"}
