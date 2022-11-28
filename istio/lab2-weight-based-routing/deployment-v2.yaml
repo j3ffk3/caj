@@ -1,21 +1,21 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: caj-master-file
+  name: caj-master-file-v2
   labels:
     app: caj-master-file
-    version: v1
+    version: v2
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: caj-master-file
-      version: v1
+      version: v2
   template:
     metadata:
       labels:
         app: caj-master-file
-        version: v1
+        version: v2
     spec:
       containers:
         - name: caj-master-file

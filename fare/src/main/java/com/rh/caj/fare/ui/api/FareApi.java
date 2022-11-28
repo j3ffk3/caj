@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,6 +45,18 @@ public class FareApi {
 	@ExceptionHandler(ResourceAccessException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ResponseEntity<GenericResponseDTO> handleResourceAccessException(ResourceAccessException exception){
+		log.info(exception.getMessage());
+		return new ResponseEntity<>(GenericResponseDTO.builder()
+				.data(exception.getMessage())
+				.code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
+				.message(HttpStatus.INTERNAL_SERVER_ERROR.name())
+				.traceId(tracer.currentSpan().context().traceId())
+				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(HttpServerErrorException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ResponseEntity<GenericResponseDTO> handleHttpServerErrorException(ResourceAccessException exception){
 		log.info(exception.getMessage());
 		return new ResponseEntity<>(GenericResponseDTO.builder()
 				.data(exception.getMessage())
