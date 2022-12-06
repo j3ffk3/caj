@@ -7,15 +7,12 @@ pipeline {
   }
 
   stages {
-    stage('Run tests') {
+    stage('Run Tests') {
       steps {
         container('maven') {
           sh 'mvn -version'
 
           dir('fare') {
-            sh 'pwd'
-            sh 'ls -lah'
-
             sh '''#!/bin/bash
             export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
             export PATH=$PATH:$JAVA_HOME/bin
@@ -39,7 +36,7 @@ pipeline {
       }
     }
 
-    stage('Code scan') {
+    stage('Code Scan') {
       steps {
         container('maven') {
           dir('fare') {
@@ -66,10 +63,32 @@ pipeline {
       }
     }
 
-    stage('Run podman') {
+    stage('Build Artifact') {
+      steps {
+        container('maven') {
+          dir('fare') {
+            sh '''#!/bin/bash
+            export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+            export PATH=$PATH:$JAVA_HOME/bin
+
+            ./gradlew \
+                -Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttp.proxyPort=3128 \
+                -Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttps.proxyPort=3128 \
+                clean build
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Build Image') {
       steps {
         container('podman') {
-          sh 'podman version'
+          dir('fare') {
+            sh 'podman version'
+            sh 'podman build -f Dockerfile-openjdk -t fare:latest .'
+            sh 'podman images'
+          }
         }
       }
     }
