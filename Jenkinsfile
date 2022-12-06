@@ -92,7 +92,7 @@ pipeline {
         container('podman') {
           dir('fare') {
             sh 'podman version'
-            sh 'podman build -f Dockerfile-openjdk -t docker.io/kairen/fare:latest .'
+            sh 'podman build -f Dockerfile-openjdk -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest .'
             sh 'podman images'
           }
         }
@@ -100,14 +100,31 @@ pipeline {
     }
 
     stage('Image Scan') {
+      when {
+        expression { params.SKIP_IMAGE_SCAN == false }
+      }
       steps {
         container('podman') {
           sh '''#!/bin/bash
           cd
-          wget -c https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -O - | tar -xz
-
-          ./trivy image docker.io/kairen/fare:latest
+          curl -L https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -o - | tar -xz
+          
+          sleep 36000
+          podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest > fare-latest.tar.gz
+          ./trivy --debug image --severity HIGH,CRITICA --input fare-latest.tar.gz
           '''
+        }
+      }
+    }
+
+    stage('Push Image') {
+      steps {
+        container('podman') {
+          withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'podman login docker.io -u ${USERNAME} -p ${PASSWORD}'
+          }
+         
+          sh 'podman push ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest'
         }
       }
     }
