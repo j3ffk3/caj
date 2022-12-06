@@ -29,3 +29,49 @@ Check the following screenshots:
 ![](https://i.imgur.com/MwbkPC7.png)
 
 ![](https://i.imgur.com/w8GK8mq.png)
+
+The below will show you how to setup Kubernetes Dynamic agents:
+
+1. First, to install the [Kubernetes Plugin](https://plugins.jenkins.io/kubernetes/) from Jenkins Dashboard's plugin page.
+2. Using the OpenShift Command Line Tool (CLI), login to OpenShift as and create a new project called 'devops-system', and then create a new service account called jenkins:
+
+```sh
+$ oc new-project devops-system
+$ oc -n devops-system create serviceaccount jenkins
+$ oc adm policy add-cluster-role-to-user edit system:serviceaccount:devops-system:jenkins
+$ oc -n devops-system serviceaccounts get-token jenkins 
+```
+
+3. Copy the token, and then do the following steps. Go to `Dashboard > Manage Jenkins > Manage nodes and clouds > Configure Clouds` page.
+  * Configure Kubernetes URL and Namespace.
+
+![](https://i.imgur.com/13zqH1R.png)
+
+  * Add a `Secret text` credential for accessing Kubernetes API server. Paste the token into Secret field.
+
+![](https://i.imgur.com/AQNFW2c.png)
+
+  * Test Kubernetes API connection.
+
+![](https://i.imgur.com/6wvE2Ji.png)
+
+  * Configure a Pod template.
+
+![](https://i.imgur.com/TGIRmoh.png)
+
+![](https://i.imgur.com/w4h7qLz.png)
+
+![](https://i.imgur.com/MrH9O4U.png)
+
+  * Create a Pipeline and test the below content:
+
+```groovy
+node('openjdk11') {
+  stage('Hello') {
+    echo 'Hello World'
+    sh 'java -version'
+  }
+}
+```
+
+![](https://i.imgur.com/tcgeTwW.png)
