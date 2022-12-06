@@ -24,8 +24,6 @@ pipeline {
                 -Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttp.proxyPort=3128 \
                 -Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttps.proxyPort=3128 \
                 clean test --info 
-
-            ls -la build/reports/tests/test
             '''
 
             publishHTML(target: [
@@ -45,17 +43,25 @@ pipeline {
       steps {
         container('maven') {
           dir('fare') {
-            sh '''#!/bin/bash
-            export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-            export PATH=$PATH:$JAVA_HOME/bin
+            withCredentials([usernamePassword(credentialsId: 'sonarqube-basic-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+              sh '''#!/bin/bash
+              export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+              export PATH=$PATH:$JAVA_HOME/bin
 
-            ./gradlew \
-                -Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttp.proxyPort=3128 \
-                -Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttps.proxyPort=3128 \
-                "-Dhttp.nonProxyHosts=*.rhtw.kubedev.org|localhost" \
-                "-Dhttps.nonProxyHosts=*.rhtw.kubedev.org|localhost" \
-                clean test --info 
-            '''
+              ./gradlew \
+                  -Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttp.proxyPort=3128 \
+                  -Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttps.proxyPort=3128 \
+                  "-Dhttp.nonProxyHosts=*.rhtw.kubedev.org|localhost" \
+                  "-Dhttps.nonProxyHosts=*.rhtw.kubedev.org|localhost" \
+                  sonarqube \
+                    -Dsonar.host.url=http://sonarqube-speaker02.apps.penguin.rhtw.kubedev.org \
+                    -Dsonar.login=${USERNAME} \
+                    -Dsonar.password=${PASSWORD} \
+                    -Dsonar.projectName=${STUDENT_ID}-fare \
+                    -Dsonar.projectKey=${STUDENT_ID}-fare
+              '''
+            }
+          }
         }
       }
     }
