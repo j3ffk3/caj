@@ -12,9 +12,11 @@ http://${DOMAIN}/swagger-ui.html
 * Code Scan
 ```bash=
 ./gradlew sonarqube \
--Dsonar.host.url=${SONARQUBE_URL} \
--Dsonar.login=${USER} \
--Dsonar.password=${PASSWORD} 
+  -Dsonar.host.url=${SONARQUBE_URL} \
+  -Dsonar.login=${USER} \
+  -Dsonar.password=${PASSWORD} \
+  -Dsonar.projectName=fare-${STUDENT_ID} \
+  -Dsonar.projectKey=fare-${STUDENT_ID} 
 ```
 
 * Build Artifact
