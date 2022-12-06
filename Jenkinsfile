@@ -8,6 +8,9 @@ pipeline {
 
   stages {
     stage('Run Tests') {
+      when {
+        expression { params.SKIP_TESTS == false }
+      }
       steps {
         container('maven') {
           sh 'mvn -version'
@@ -37,6 +40,9 @@ pipeline {
     }
 
     stage('Code Scan') {
+      when {
+        expression { params.SKIP_CODE_SCAN == false }
+      }
       steps {
         container('maven') {
           dir('fare') {
