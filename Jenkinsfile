@@ -86,9 +86,22 @@ pipeline {
         container('podman') {
           dir('fare') {
             sh 'podman version'
-            sh 'podman build -f Dockerfile-openjdk -t fare:latest .'
+            sh 'podman build -f Dockerfile-openjdk -t docker.io/kairen/fare:latest .'
             sh 'podman images'
           }
+        }
+      }
+    }
+
+    stage('Image Scan') {
+      steps {
+        container('podman') {
+          sh '''#!/bin/bash
+          cd
+          wget -c https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -O - | tar -xz
+
+          ./trivy image docker.io/kairen/fare:latest
+          '''
         }
       }
     }
