@@ -14,7 +14,9 @@ http://${DOMAIN}/swagger-ui.html
 ./gradlew sonarqube \
   -Dsonar.host.url=${SONARQUBE_URL} \
   -Dsonar.login=${USER} \
-  -Dsonar.password=${PASSWORD} 
+  -Dsonar.password=${PASSWORD} \
+  -Dsonar.projectName=master-file-${STUDENT_ID} \
+  -Dsonar.projectKey=master-file-${STUDENT_ID} 
 ```
 
 * Build Artifact

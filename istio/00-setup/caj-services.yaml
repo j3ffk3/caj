@@ -1,0 +1,237 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: web-config
+data:
+  config.json: >
+    {"masterFileUrl":"http://${STUDENT_ID}.istio-gateway.apps.penguin.rhtw.kubedev.org","fareUrl":"http://${STUDENT_ID}.istio-gateway.apps.penguin.rhtw.kubedev.org","scheduleUrl":"http://${STUDENT_ID}.istio-gateway.apps.penguin.rhtw.kubedev.org"}
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-web
+  labels:
+    app: caj-web
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-web
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-web
+        version: v1
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: web-config
+            defaultMode: 420
+      containers:
+        - name: caj-web
+          image: 'docker.io/d0ck3rj3ff/caj-web:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /opt/app-root/src/assets/config.json
+              subPath: config.json
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-web
+  labels:
+    app: caj-web
+    service: caj-web
+spec:
+  selector:
+    app: caj-web
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-gateway
+  labels:
+    app: caj-gateway
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-gateway
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-gateway
+        version: v1
+    spec:
+      containers:
+        - name: caj-gateway
+          image: 'docker.io/d0ck3rj3ff/caj-gateway:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: MASTER_FILE_URI
+              value: http://caj-master-file:8080
+            - name: FARE_URI
+              value: http://caj-fare:8080
+            - name: SCHEDULE_URI
+              value: http://caj-schedule:8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-gateway
+  labels:
+    app: caj-gateway
+    service: caj-gateway
+spec:
+  selector:
+    app: caj-gateway
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-fare
+  labels:
+    app: caj-fare
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-fare
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-fare
+        version: v1
+    spec:
+      containers:
+        - name: caj-fare
+          image: 'docker.io/d0ck3rj3ff/caj-fare:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: STATION_API
+              value: 'http://caj-master-file:8080/api/master-files/stations'
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-fare
+  labels:
+    app: caj-fare
+    service: caj-fare
+spec:
+  selector:
+    app: caj-fare
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-master-file
+  labels:
+    app: caj-master-file
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-master-file
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-master-file
+        version: v1
+    spec:
+      containers:
+        - name: caj-master-file
+          image: 'docker.io/d0ck3rj3ff/caj-master-file:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-master-file
+  labels:
+    app: caj-master-file
+    service: caj-master-file
+spec:
+  selector:
+    app: caj-master-file
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-schedule
+  labels:
+    app: caj-schedule
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-schedule
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-schedule
+        version: v1
+    spec:
+      containers:
+        - name: caj-schedule
+          image: 'docker.io/d0ck3rj3ff/caj-schedule:latest'
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: caj-schedule
+  labels:
+    app: caj-schedule
+    service: caj-schedule
+spec:
+  selector:
+    app: caj-schedule
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
