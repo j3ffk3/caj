@@ -15,7 +15,7 @@ pipeline {
         container('maven') {
           sh 'mvn -version'
 
-          dir('${PROJECT_NAME}') {
+          dir("${PROJECT_NAME}") {
             sh '''#!/bin/bash
             export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
             export PATH=$PATH:$JAVA_HOME/bin
@@ -45,7 +45,7 @@ pipeline {
       }
       steps {
         container('maven') {
-          dir('${PROJECT_NAME}') {
+          dir("${PROJECT_NAME}") {
             withCredentials([usernamePassword(credentialsId: 'sonarqube-basic-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh '''#!/bin/bash
               export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
@@ -72,7 +72,7 @@ pipeline {
     stage('Build Artifact') {
       steps {
         container('maven') {
-          dir('${PROJECT_NAME}') {
+          dir("${PROJECT_NAME}") {
             sh '''#!/bin/bash
             export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
             export PATH=$PATH:$JAVA_HOME/bin
@@ -90,7 +90,7 @@ pipeline {
     stage('Build Image') {
       steps {
         container('podman') {
-          dir('fare') {
+          dir("${PROJECT_NAME}") {
             sh 'podman version'
             sh 'podman build -f Dockerfile-openjdk -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest .'
             sh 'podman images'
