@@ -123,7 +123,7 @@ pipeline {
             sh 'podman login docker.io -u ${USERNAME} -p ${PASSWORD}'
           }
          
-          sh 'podman push ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest'
+          sh 'podman push ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest'
         }
       }
     }
