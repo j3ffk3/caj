@@ -15,7 +15,7 @@ pipeline {
         container('maven') {
           sh 'mvn -version'
 
-          dir('fare') {
+          dir('${PROJECT_NAME}') {
             sh '''#!/bin/bash
             export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
             export PATH=$PATH:$JAVA_HOME/bin
@@ -23,7 +23,7 @@ pipeline {
             ./gradlew \
                 -Dhttp.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttp.proxyPort=3128 \
                 -Dhttps.proxyHost=proxy.penguin.rhtw.kubedev.org -Dhttps.proxyPort=3128 \
-                clean test --info 
+                clean test
             '''
 
             publishHTML(target: [
@@ -45,7 +45,7 @@ pipeline {
       }
       steps {
         container('maven') {
-          dir('fare') {
+          dir('${PROJECT_NAME}') {
             withCredentials([usernamePassword(credentialsId: 'sonarqube-basic-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh '''#!/bin/bash
               export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
@@ -57,11 +57,11 @@ pipeline {
                   "-Dhttp.nonProxyHosts=*.rhtw.kubedev.org|localhost" \
                   "-Dhttps.nonProxyHosts=*.rhtw.kubedev.org|localhost" \
                   sonarqube \
-                    -Dsonar.host.url=http://sonarqube-speaker02.apps.penguin.rhtw.kubedev.org \
+                    -Dsonar.host.url=${SONARQUBE_URL} \
                     -Dsonar.login=${USERNAME} \
                     -Dsonar.password=${PASSWORD} \
-                    -Dsonar.projectName=${STUDENT_ID}-fare \
-                    -Dsonar.projectKey=${STUDENT_ID}-fare
+                    -Dsonar.projectName=${STUDENT_ID}-${PROJECT_NAME} \
+                    -Dsonar.projectKey=${STUDENT_ID}-${PROJECT_NAME}
               '''
             }
           }
@@ -72,7 +72,7 @@ pipeline {
     stage('Build Artifact') {
       steps {
         container('maven') {
-          dir('fare') {
+          dir('${PROJECT_NAME}') {
             sh '''#!/bin/bash
             export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
             export PATH=$PATH:$JAVA_HOME/bin
@@ -92,7 +92,7 @@ pipeline {
         container('podman') {
           dir('fare') {
             sh 'podman version'
-            sh 'podman build -f Dockerfile-openjdk -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest .'
+            sh 'podman build -f Dockerfile-openjdk -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest .'
             sh 'podman images'
           }
         }
@@ -109,8 +109,8 @@ pipeline {
           cd
           curl -L https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -o - | tar -xz
           
-          podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest > fare-latest.tar.gz
-          ./trivy --debug image --severity HIGH,CRITICA --input fare-latest.tar.gz
+          podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest > scan-latest.tar.gz
+          ./trivy --debug image --severity HIGH,CRITICA --input scan-latest.tar.gz
           '''
         }
       }
@@ -119,7 +119,7 @@ pipeline {
     stage('Push Image') {
       steps {
         container('podman') {
-          withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          withCredentials([usernamePassword(credentialsId: '${DOCKERHUB_CREDS_ID}', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh 'podman login docker.io -u ${USERNAME} -p ${PASSWORD}'
           }
          
@@ -135,8 +135,8 @@ pipeline {
           set -eu
 
           oc project ${STUDENT_ID}
-          # oc set image deploy/caj-fare caj-fare=${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest
-          oc rollout restart deploy/caj-fare
+          # oc set image deploy/caj-${PROJECT_NAME} caj-${PROJECT_NAME}=${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest
+          oc rollout restart deploy/caj-${PROJECT_NAME}
           '''
         }
       }
