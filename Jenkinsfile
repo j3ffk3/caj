@@ -127,5 +127,19 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy to OCP4') {
+      steps {
+        container('ose-cli') {
+          sh '''#!/bin/bash
+          set -eu
+
+          oc project ${STUDENT_ID}
+          # oc set image deploy/caj-fare caj-fare=${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest
+          oc rollout restart deploy/caj-fare
+          '''
+        }
+      }
+    }
   }
 }
