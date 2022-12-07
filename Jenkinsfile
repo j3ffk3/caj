@@ -109,7 +109,7 @@ pipeline {
           cd
           curl -L https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -o - | tar -xz
           
-          podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest > scan-latest.tar.gz
+          podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest > scan.tar.gz
           ./trivy --debug image --severity HIGH,CRITICA --input scan-latest.tar.gz
           '''
         }
@@ -119,7 +119,7 @@ pipeline {
     stage('Push Image') {
       steps {
         container('podman') {
-          withCredentials([usernamePassword(credentialsId: '${DOCKERHUB_CREDS_ID}', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDS_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             sh 'podman login docker.io -u ${USERNAME} -p ${PASSWORD}'
           }
          
