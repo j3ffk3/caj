@@ -109,7 +109,6 @@ pipeline {
           cd
           curl -L https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -o - | tar -xz
           
-          sleep 36000
           podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/fare:latest > fare-latest.tar.gz
           ./trivy --debug image --severity HIGH,CRITICA --input fare-latest.tar.gz
           '''
