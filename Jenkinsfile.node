@@ -1,0 +1,81 @@
+pipeline {
+  agent {
+    kubernetes {
+      defaultContainer 'nodejs'
+      yamlFile 'jenkins/node-agent.yml'
+    }
+  }
+
+  stages {
+    stage('Build Artifact') {
+      steps {
+        container('nodejs') {
+          dir("${PROJECT_NAME}") {
+            sh 'chown -R 1001:1000 ./'
+            sh 'npm i -g @angular/cli@14.2.0'
+            sh 'npm i '
+
+            sh '''#!/bin/bash
+            export NG_CLI_ANALYTICS=false
+            ng build
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Build Image') {
+      steps {
+        container('podman') {
+          dir("${PROJECT_NAME}") {
+            sh 'podman version'
+            sh 'podman build -f Dockerfile -t ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest .'
+            sh 'podman images'
+          }
+        }
+      }
+    }
+
+    stage('Image Scan') {
+      when {
+        expression { params.SKIP_IMAGE_SCAN == false }
+      }
+      steps {
+        container('podman') {
+          sh '''#!/bin/bash
+          cd
+          curl -L https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.tar.gz -o - | tar -xz
+
+          podman save ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest > ${PROJECT_NAME}-latest.tar.gz
+          ./trivy --debug image --timeout 15m0s --severity HIGH,CRITICAL --input ${PROJECT_NAME}-latest.tar.gz
+          '''
+        }
+      }
+    }
+
+    stage('Push Image') {
+      steps {
+        container('podman') {
+          withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDS_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'podman login docker.io -u ${USERNAME} -p ${PASSWORD}'
+          }
+         
+          sh 'podman push ${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${PROJECT_NAME}:latest'
+        }
+      }
+    }
+
+    stage('Deploy to OCP4') {
+      steps {
+        container('ose-cli') {
+          sh '''#!/bin/bash
+          set -eu
+
+          oc project ${STUDENT_ID}
+          oc rollout restart deploy/caj-web
+          '''
+        }
+      }
+    }
+  }
+}
