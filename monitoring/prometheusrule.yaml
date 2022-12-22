@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: caj-master-file-alert
+spec:
+  groups:
+    - name: caj-master-file
+      rules:
+        - alert: TargetDownAlert
+          annotations:
+            summary: '{{ $labels.app }} in {{ $labels.namespace }} namespace is down'
+          expr: 'up{app="caj-master-file",namespace="speaker01"} == 0'
+          for: 5s
+          labels:
+            severity: Critical
+        - alert: CpuUsageAlert
+          annotations:
+            summary: >-
+              {{ $labels.app }} in {{ $labels.namespace }} cup is greater than
+              1%
+          expr: >-
+            process_cpu_usage{app="caj-master-file",namespace="speaker01"} >
+            0.01
+          for: 5s
+          labels:
+            severity: Warning
