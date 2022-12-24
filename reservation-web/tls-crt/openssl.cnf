@@ -19,5 +19,11 @@ subjectAltName = @alt_names
 
 [alt_names]
 DNS.1 = *.labs.exmaple.com
-DNS.2 = *.apps.penguin.rhtw.kubedev.org
-DNS.3 = localhost
+DNS.2 = localhost
+DNS.3 = *.svc.cluster.local
+DNS.4 = caj-fare
+DNS.5 = caj-gateway
+DNS.6 = caj-master-file
+DNS.7 = caj-schedule
+DNS.8 = caj-web
+DNS.9 = caj-web-tls
