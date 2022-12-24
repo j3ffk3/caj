@@ -2,6 +2,6 @@ FROM registry.access.redhat.com/ubi8/nginx-120
 EXPOSE 8443
 COPY ./nginx-tls.conf "${NGINX_CONF_PATH}"
 COPY ./dist/reservation-web /opt/app-root/src
-COPY ./tls-crt/ssl.cert /etc/pki/nginx/server.crt
-COPY ./tls-crt/ssl.key /etc/pki/nginx/private/server.key
+COPY ./tls-crt/server.crt /etc/pki/nginx/server.crt
+COPY ./tls-crt/server.key /etc/pki/nginx/private/server.key
 CMD nginx -g "daemon off;"
