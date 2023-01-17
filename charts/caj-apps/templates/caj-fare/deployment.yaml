@@ -1,0 +1,29 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-fare
+  labels:
+    app: caj-fare
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-fare
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-fare
+        version: v1
+    spec:
+      containers:
+        - name: caj-fare
+          image: "{{ .Values.image.repository }}/caj-fare:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: STATION_API
+              value: 'http://caj-master-file:8080/api/master-files/stations'

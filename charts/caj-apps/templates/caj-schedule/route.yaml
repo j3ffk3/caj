@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: caj-schedule
+spec:
+  host: "caj-schedule-{{ .Values.targetNamespace }}.{{ .Values.domain }}"
+  to:
+    kind: Service
+    name: caj-schedule
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None

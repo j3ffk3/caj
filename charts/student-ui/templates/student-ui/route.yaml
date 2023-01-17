@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: student-ui
+spec:
+  host: "student-ui-{{ .Values.targetNamespace }}.{{ .Values.domain }}"
+  to:
+    kind: Service
+    name: student-ui
+    weight: 100
+  port:
+    targetPort: 80
+  wildcardPolicy: None

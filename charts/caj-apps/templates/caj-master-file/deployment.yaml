@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-master-file
+  labels:
+    app: caj-master-file
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-master-file
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-master-file
+        version: v1
+    spec:
+      containers:
+        - name: caj-master-file
+          image: "{{ .Values.image.repository }}/caj-master-file:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080

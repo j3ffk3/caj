@@ -1,0 +1,33 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: caj-gateway
+  labels:
+    app: caj-gateway
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caj-gateway
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: caj-gateway
+        version: v1
+    spec:
+      containers:
+        - name: caj-gateway
+          image: "{{ .Values.image.repository }}/caj-gateway:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: MASTER_FILE_URI
+              value: 'http://caj-master-file:8080'
+            - name: FARE_URI
+              value: 'http://caj-fare:8080'
+            - name: SCHEDULE_URI
+              value: 'http://caj-schedule:8080'

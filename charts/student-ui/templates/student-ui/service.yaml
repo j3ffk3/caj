@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: student-ui
+  labels:
+    app: student-ui
+    service: student-ui
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: student-ui

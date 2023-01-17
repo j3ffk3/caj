@@ -1,0 +1,50 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: student-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-ui
+  template:
+    metadata:
+      labels:
+        app: student-ui
+    spec:
+      containers:
+        - resources: {}
+          stdin: true
+          terminationMessagePath: /dev/termination-log
+          name: ose-cli
+          env:
+            - name: STUDENT_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          securityContext:
+            privileged: true
+          imagePullPolicy: Always
+          terminationMessagePolicy: File
+          tty: true
+          image: "{{ .Values.image.repository }}/ose-cli:{{ .Values.image.tag }}"
+        - resources: {}
+          stdin: true
+          terminationMessagePath: /dev/termination-log
+          name: novnc
+          env:
+            - name: STUDENT_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
+          terminationMessagePolicy: File
+          tty: true
+          image: "{{ .Values.image.repository }}/student-ui:{{ .Values.image.tag }}"
